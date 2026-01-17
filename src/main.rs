@@ -8,7 +8,7 @@ fn main() {
         .read_line(&mut money)
         .expect("Enter a starting number");
     // turn money var into int
-    let mut money: i32 = money.trim().parse().expect("Not a number");
+    let mut money: f32 = money.trim().parse().expect("Not a number");
     // game loop
     loop {
         // ask if always bet a val or not
@@ -25,12 +25,12 @@ fn main() {
                     // if lucky
                     if luck() {
                         // money * 2
-                        money = money * 2;
+                        money = money * 2.0;
                         // print message
                         println!("Lucky! Your money is now {}!", money);
                     } else {
                         // money turns to 0
-                        money = 0;
+                        money = 0.0;
                         break;
                     }
                 }
@@ -51,7 +51,7 @@ fn main() {
                     // loop
                     loop {
                         // turn usr input to int
-                        let bet: i32 = s.trim().parse().expect("Not a number");
+                        let bet: f32 = s.trim().parse().expect("Not a number");
                         // if lucky
                         if luck() {
                             // add usr input to total money and print it
@@ -63,8 +63,32 @@ fn main() {
                             println!("Unlucky! Your money is now {}!", money);
                         }
                         // if money if smaller than 0
-                        if money <= 0 {
+                        if money <= 0.0 {
                             // break out of loop
+                            break;
+                        }
+                    }
+                } else {
+                    // input
+                    println!(
+                        "Enter percentage (Enter is as a number, it will automatically turned into a percantage)"
+                    );
+                    let mut s = String::new();
+                    io::stdin().read_line(&mut s).expect("Enter a number");
+                    let mut bet: f32 = s.trim().parse().expect("Not a number");
+                    bet /= 100.0;
+                    loop {
+                        // if lucky
+                        if luck() {
+                            money = money + money * bet;
+                            money = round(money);
+                            print!("Lucky! Your money is now {}!", money);
+                        } else {
+                            money = money - money * bet;
+                            money = round(money);
+                            print!("Unlucky! Your money is now {}!", money);
+                        }
+                        if money == 0.0 {
                             break;
                         }
                     }
@@ -72,7 +96,7 @@ fn main() {
             }
         }
         // if money smaller than 0
-        if money <= 0 {
+        if money <= 0.0 {
             // print and break
             println!("You lost all your money!");
             break;
@@ -92,4 +116,8 @@ fn luck() -> bool {
     let mut nums: Vec<i32> = (1..100).collect();
     nums.shuffle(&mut rng);
     nums.choose(&mut rng).unwrap() > &50
+}
+// round f32 to hundreths
+fn round(num: f32) -> f32 {
+    (num * 100.0).round() / 100.0
 }
