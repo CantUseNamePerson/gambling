@@ -88,7 +88,7 @@ fn main() {
                             money = round(money);
                             print!("Unlucky! Your money is now {}!", money);
                         }
-                        if money == 0.0 {
+                        if money <= 0.0 {
                             break;
                         }
                     }
