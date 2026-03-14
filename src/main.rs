@@ -70,9 +70,7 @@ fn main() {
                     }
                 } else {
                     // input
-                    println!(
-                        "Enter percentage (Enter is as a number, it will automatically turned into a percantage)"
-                    );
+                    println!("Enter percentage (Enter is as a number, it will automatically turned into a percantage)");
                     let mut s = String::new();
                     io::stdin().read_line(&mut s).expect("Enter a number");
                     let mut bet: f32 = s.trim().parse().expect("Not a number");
@@ -82,16 +80,19 @@ fn main() {
                         if luck() {
                             money = money + money * bet;
                             money = round(money);
-                            print!("Lucky! Your money is now {}!", money);
+                            print!("Lucky! Your money is now {}!\n", money);
                         } else {
                             money = money - money * bet;
                             money = round(money);
-                            print!("Unlucky! Your money is now {}!", money);
+                            print!("Unlucky! Your money is now {}!\n", money);
                         }
-                        if money <= 0.0 {
+                        if money <= 1.0 {
                             break;
                         }
                     }
+                }
+                if money <=1.0 {
+                    break;
                 }
             }
         }
